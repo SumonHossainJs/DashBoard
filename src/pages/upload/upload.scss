@@ -1,0 +1,38 @@
+.updiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    .input{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        .col{
+            max-width: 500px;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            
+            
+                input,
+                textarea,select {
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 10px;
+                  border: 1px solid #ffffff5c;
+                  background-color: rgba(255, 255, 255, 0.123);
+                  color: white;
+                  border-radius: 5px;
+                  box-sizing: border-box;
+                }
+                input::placeholder {
+                    color: #ffffff; 
+                }
+                input {
+                    height: 50px;
+                }
+              
+            
+        }
+    }
+}
