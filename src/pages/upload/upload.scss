@@ -1,11 +1,13 @@
 .updiv{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
     gap: 20px;
     .input{
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 20px;
         .col{
             max-width: 500px;
@@ -31,6 +33,72 @@
                 input {
                     height: 50px;
                 }
+                label{
+                    font-size: 12px;
+                    padding-bottom: 10px;
+                    padding-top: 15px;
+                }
+                #mySelect {
+                    width: 200px; 
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: rgba(255, 255, 255, 0.123);
+                    color: white;
+                    cursor: pointer;
+                    outline: none; // Remove default outline
+                  
+                    &:hover,
+                    &:focus {
+                      border-color: #aaa; // Change border color on hover and focus
+                    }
+                    
+                    & option {
+                      background-color: #ffffff23; // Background color of options
+                      color: #333; // Text color of options
+                    }
+                    &:focus + div {
+                        background-color: #f90e0e; // Change background color of dropdown menu
+                      }
+                  }
+                  .upbtn{
+                    background-color: #ffffff2b;
+                    border: none;
+                    padding: 10px 15px;
+                    color:white;
+                    border-radius: 5px;
+                    margin:  10px 0;
+                    transition: all 0.5s ease;
+                    &:hover{
+                        box-shadow: 0 0 10px black;
+                    }
+                  }
+                  .items{
+                    ul{
+                        list-style: none;
+                        li{
+                          cursor: pointer; 
+                          border: .5px solid rgba(128, 128, 128, 0.309);
+                          width: fit-content;
+                          padding: 10px;
+                          border-radius: 10px; 
+                          transition: all .5s ease;
+                            display: block;
+                          &:hover{
+                            border: 1px solid rgba(255, 0, 0, 0.534);
+                            box-shadow: 0 0 10px  red;
+                          }
+                        }
+                        .fadeOut {
+                            opacity: 1;
+                            transition: all 0.5s ease-out; /* Adjust timing and easing as needed */
+                          }
+                          .fadeOut.hidden {
+                            opacity: 0;
+                          }
+                    }
+                  }
               
             
         }

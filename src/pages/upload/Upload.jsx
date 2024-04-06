@@ -9,6 +9,7 @@ const Upload = () => {
   const [listDesc, setListDesc] = useState([]);
   const [textDsc, setTextDsc] = useState({ title: "", desc: "" });
   const [textDesc, setTextDesc] = useState([]);
+  
 
   const [inputs, setInputs] = useState({
     title: "",
@@ -85,8 +86,14 @@ const Upload = () => {
   };
   const handleRemoveDesc = (index) => {
     const updatedList = [...textDesc];
-    updatedList.splice(index, 1);
+    updatedList[index].fadeOut = true;
     setTextDesc(updatedList);
+    
+    setTimeout(() => {
+      const newList = [...textDesc];
+      newList.splice(index, 1);
+      setTextDesc(newList);
+    }, 500); // Adjust timing to match the CSS transition duration
   };
 
   // List Dsc End ----------
@@ -142,6 +149,7 @@ const Upload = () => {
       <div className="input">
         <div className="col">
           {/* ttile-------------- */}
+          
           <input
             className="title"
             type="text"
@@ -178,13 +186,13 @@ const Upload = () => {
 
           {/* ----------pcate */}
          
-          <label htmlFor="pCate">Primary categore</label>
+          <label htmlFor="pCate"> Select Primary categore</label>
           <select id="mySelect" name="pCate" onChange={handleChange}>
-            <option value="option1">Website</option>
-            <option value="option2">Mobile App</option>
-            <option value="option3">Brand Design</option>
-            <option value="option4">Logo design</option>
-            <option value="option5">Motion Design</option>
+            <option value="Website">Website</option>
+            <option value="Mobile App">Mobile App</option>
+            <option value="Brand design">Brand Design</option>
+            <option value="Logo Design">Logo design</option>
+            <option value="Motion Design">Motion Design</option>
           </select>
         </div>
 
@@ -214,7 +222,7 @@ const Upload = () => {
             onChange={handleChange}
           />
           {/* product type-------------- */}
-          <label htmlFor="productType">Product Type</label>
+          
           <input
             className="product-type"
             type="text"
@@ -241,36 +249,31 @@ const Upload = () => {
             onChange={handleChange}
           />
 
-          <label>
-            title:
+          
             <input
               type="text"
               value={textDsc.title}
               onChange={(e) => handleInputDesc(e, "title")}
             />
-          </label>
+         
           <div>
-            <label>
-              Description:
+            
               <input
                 type="text"
                 value={textDsc.desc}
                 onChange={(e) => handleInputDesc(e, "desc")}
               />
-            </label>
+           
             <button className="upbtn" onClick={handleAddtextDesc}>
               Add Desc
             </button>
-            <div>
-              <h3>Text Description:</h3>
+            <div className="items">
+             
               <ul>
                 {textDesc.map((item, index) => (
-                  <li key={index}>
-                    title: {item.title}, description: {item.desc}
-                    <button onClick={() => handleRemoveDesc(index)}>
-                      Remove Item
-                    </button>
-                  </li>
+                  <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => handleRemoveDesc(index)}>
+                  title: {item.title},<br/> description: {item.desc}
+                </li>
                 ))}
               </ul>
             </div>
