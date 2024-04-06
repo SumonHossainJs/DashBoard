@@ -253,6 +253,7 @@ const Upload = () => {
             <input
               type="text"
               value={textDsc.title}
+              placeholder="Add Title"
               onChange={(e) => handleInputDesc(e, "title")}
             />
          
@@ -261,6 +262,7 @@ const Upload = () => {
               <input
                 type="text"
                 value={textDsc.desc}
+                placeholder="Add Description"
                 onChange={(e) => handleInputDesc(e, "desc")}
               />
            
@@ -272,7 +274,7 @@ const Upload = () => {
               <ul>
                 {textDesc.map((item, index) => (
                   <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => handleRemoveDesc(index)}>
-                  title: {item.title},<br/> description: {item.desc}
+                  title: {item.title},<br/> description: {item.desc} <span><div className="x">X</div></span>
                 </li>
                 ))}
               </ul>
