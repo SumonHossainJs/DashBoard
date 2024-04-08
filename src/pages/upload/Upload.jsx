@@ -11,6 +11,8 @@ const Upload = () => {
   const [textDsc, setTextDsc] = useState({ title: "", desc: "" });
   const [textDesc, setTextDesc] = useState([]);
   
+  const [categories, setCategories] = useState([]);
+  const [cateValue, setCateValue] = useState("");
 
   const [inputs, setInputs] = useState({
     title: "",
@@ -18,7 +20,7 @@ const Upload = () => {
     hoverThumbnail: "",
     gallery: [],
     pCate: "",
-    cate: [],
+    
     price: 0,
     salePrice: 0,
     productType: "",
@@ -41,6 +43,15 @@ const Upload = () => {
       ],
     },
   });
+  const handleCateArrayChange = (e, index, name) => {
+    const value = e.target.value;
+    setCateValue(value); 
+    if (value.endsWith(",")) {
+      const newCategory = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
+      setCategories(prevCategories => [...prevCategories, newCategory]); // Update categories
+      setCateValue(""); // Clear input field
+    }
+  };
   // -----------List DSC"
   const handleInputChange = (event, field) => {
     setlistDsc({
@@ -82,8 +93,14 @@ const Upload = () => {
 
   const handleRemoveItem = (index) => {
     const updatedList = [...listDesc];
-    updatedList.splice(index, 1);
+    updatedList[index].fadeOut = true;
     setListDesc(updatedList);
+
+    setTimeout(() => {
+      const newList = [...listDesc];
+      newList.splice(index, 1);
+      setListDesc(newList);
+    }, 500);
   };
   const handleRemoveDesc = (index) => {
     const updatedList = [...textDesc];
@@ -94,6 +111,17 @@ const Upload = () => {
       const newList = [...textDesc];
       newList.splice(index, 1);
       setTextDesc(newList);
+    }, 500); // Adjust timing to match the CSS transition duration
+  };
+  const handleRemoveCate = (index) => {
+    const updatedList = [...cateValue];
+    updatedList[index].fadeOut = true;
+    setCateValue(updatedList);
+    
+    setTimeout(() => {
+      const newList = [...cateValue];
+      newList.splice(index, 1);
+      setCateValue(newList);
     }, 500); // Adjust timing to match the CSS transition duration
   };
 
@@ -199,12 +227,22 @@ const Upload = () => {
 
         <div className="col">
           {/* -------------Cate */}
+          <div>
+            <Items data={categories} remove={handleRemoveCate}/>
+        {/* {categories.map((category, index) =>{
+          console.log(category);
+          return (
+            <span key={index}>{category}</span>
+          )
+        } )} */}
+      </div>
           <input
             className="cate"
             type="text"
             placeholder="Categories (comma separated)"
             name="cate"
-            onChange={(e) => handleArrayChange(e, 0, "cate")}
+            value={cateValue}
+            onChange={(e) => handleCateArrayChange(e, 0, "cate")}
           />
           {/* price------------------ */}
           <input
