@@ -36,7 +36,7 @@ const Upload = () => {
       listDesc: [
         {
           icon: "",
-          title: "",
+          Icontitle: "",
         },
       ],
     },
@@ -56,9 +56,9 @@ const Upload = () => {
   };
 
   const handleAddItem = () => {
-    if (listDsc.icon && listDsc.title) {
+    if (listDsc.icon && listDsc.Icontitle) {
       setListDesc([...listDesc, listDsc]);
-      setlistDsc({ icon: "", title: "" });
+      setlistDsc({ icon: "", Icontitle: "" });
     } else {
       alert("Both icon and title are required.");
     }
@@ -294,17 +294,17 @@ const Upload = () => {
            
               <input
                 type="text"
-                value={listDsc.title}
+                value={listDsc.Icontitle}
                 placeholder="Add title"
-                onChange={(e) => handleInputChange(e, "title")}
+                onChange={(e) => handleInputChange(e, "Icontitle")}
               />
             
             <button className="upbtn" onClick={handleAddItem}>
               Add Item
             </button>
-            <div>
-              <h3>listDesc:</h3>
-              <ul>
+            <div className="items">
+              <Items data={listDesc} remove={handleRemoveItem}/>
+              {/* <ul>
                 {listDesc.map((item, index) => (
                   <li key={index}>
                     Icon: {item.icon}, Title: {item.title}
@@ -313,7 +313,7 @@ const Upload = () => {
                     </button>
                   </li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

@@ -5,7 +5,8 @@ const Items = ({ data, remove }) => {
     <ul>
                 {data.map((item, index) => (
                   <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => remove(index)}>
-                  title: {item.title},<br/> description: {item.desc} <span><div className="x">X</div></span>
+                    {item.title? "Title" : "Icon"}
+                    : {item.title? item.title : item.icon},<br/> {item.desc? "Description" : "IconTitle"}: {item.Icontitle? item.Icontitle : item.desc} <span><div className="x">X</div></span>
                 </li>
                 ))}
               </ul>
