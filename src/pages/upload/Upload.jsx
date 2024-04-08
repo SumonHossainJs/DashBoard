@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "./Upload.scss";
 import axios from "axios";
+import Items from "./elements/Items";
 // import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
@@ -270,34 +271,34 @@ const Upload = () => {
               Add Desc
             </button>
             <div className="items">
-             
-              <ul>
+             <Items data={textDesc} remove={handleRemoveDesc}/>
+              {/* <ul>
                 {textDesc.map((item, index) => (
                   <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => handleRemoveDesc(index)}>
                   title: {item.title},<br/> description: {item.desc} <span><div className="x">X</div></span>
                 </li>
                 ))}
-              </ul>
+              </ul> */}
             </div>
             {/* -------------List Desc starts ---- */}
-            <label>
-              Icon:
+           
               <input
                 type="text"
                 value={listDsc.icon}
+                placeholder=" Add Icon"
                 onChange={(e) => handleInputChange(e, "icon")}
               />
-            </label>
+           
           </div>
           <div>
-            <label>
-              Title:
+           
               <input
                 type="text"
                 value={listDsc.title}
+                placeholder="Add title"
                 onChange={(e) => handleInputChange(e, "title")}
               />
-            </label>
+            
             <button className="upbtn" onClick={handleAddItem}>
               Add Item
             </button>
