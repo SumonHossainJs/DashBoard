@@ -6,11 +6,14 @@ import Items from "./elements/Items";
 // import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
-  const [listDsc, setlistDsc] = useState({ icon: "", title: "" });
-  const [listDesc, setListDesc] = useState([]);
+  const [listDsc, setlistDsc] = useState({ icon: "", Icontitle: "" });
   const [textDsc, setTextDsc] = useState({ title: "", desc: "" });
+
+
   const [textDesc, setTextDesc] = useState([]);
+  const [listDesc, setListDesc] = useState([]);
   
+
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
 
@@ -58,6 +61,7 @@ const Upload = () => {
       ...listDsc,
       [field]: event.target.value,
     });
+    console.log(listDsc)
   };
   const handleInputDesc = (event, field) => {
     setTextDsc({
@@ -67,12 +71,16 @@ const Upload = () => {
   };
 
   const handleAddItem = () => {
+   
     if (listDsc.icon && listDsc.Icontitle) {
       setListDesc([...listDesc, listDsc]);
+      
       setlistDsc({ icon: "", Icontitle: "" });
+      console.log(listDesc);
     } else {
       alert("Both icon and title are required.");
     }
+    
   };
 
   const handleAddtextDesc = () => {
@@ -227,14 +235,9 @@ const Upload = () => {
 
         <div className="col">
           {/* -------------Cate */}
-          <div>
+          <div className="items">
             <Items data={categories} remove={handleRemoveCate}/>
-        {/* {categories.map((category, index) =>{
-          console.log(category);
-          return (
-            <span key={index}>{category}</span>
-          )
-        } )} */}
+        
       </div>
           <input
             className="cate"
@@ -310,13 +313,7 @@ const Upload = () => {
             </button>
             <div className="items">
              <Items data={textDesc} remove={handleRemoveDesc}/>
-              {/* <ul>
-                {textDesc.map((item, index) => (
-                  <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => handleRemoveDesc(index)}>
-                  title: {item.title},<br/> description: {item.desc} <span><div className="x">X</div></span>
-                </li>
-                ))}
-              </ul> */}
+              
             </div>
             {/* -------------List Desc starts ---- */}
            
