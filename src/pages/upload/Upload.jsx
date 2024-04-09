@@ -9,10 +9,8 @@ const Upload = () => {
   const [listDsc, setlistDsc] = useState({ icon: "", Icontitle: "" });
   const [textDsc, setTextDsc] = useState({ title: "", desc: "" });
 
-
   const [textDesc, setTextDesc] = useState([]);
   const [listDesc, setListDesc] = useState([]);
-  
 
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
@@ -23,7 +21,7 @@ const Upload = () => {
     hoverThumbnail: "",
     gallery: [],
     pCate: "",
-    
+
     price: 0,
     salePrice: 0,
     productType: "",
@@ -48,10 +46,10 @@ const Upload = () => {
   });
   const handleCateArrayChange = (e, index, name) => {
     const value = e.target.value;
-    setCateValue(value); 
+    setCateValue(value);
     if (value.endsWith(",")) {
       const newCategory = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
-      setCategories(prevCategories => [...prevCategories, newCategory]); // Update categories
+      setCategories((prevCategories) => [...prevCategories, newCategory]); // Update categories
       setCateValue(""); // Clear input field
     }
   };
@@ -61,7 +59,7 @@ const Upload = () => {
       ...listDsc,
       [field]: event.target.value,
     });
-    console.log(listDsc)
+    console.log(listDsc);
   };
   const handleInputDesc = (event, field) => {
     setTextDsc({
@@ -71,16 +69,14 @@ const Upload = () => {
   };
 
   const handleAddItem = () => {
-   
     if (listDsc.icon && listDsc.Icontitle) {
       setListDesc([...listDesc, listDsc]);
-      
+
       setlistDsc({ icon: "", Icontitle: "" });
       console.log(listDesc);
     } else {
       alert("Both icon and title are required.");
     }
-    
   };
 
   const handleAddtextDesc = () => {
@@ -114,23 +110,32 @@ const Upload = () => {
     const updatedList = [...textDesc];
     updatedList[index].fadeOut = true;
     setTextDesc(updatedList);
-    
+
     setTimeout(() => {
       const newList = [...textDesc];
       newList.splice(index, 1);
       setTextDesc(newList);
     }, 500); // Adjust timing to match the CSS transition duration
   };
+  
   const handleRemoveCate = (index) => {
-    const updatedList = [...cateValue];
-    updatedList[index].fadeOut = true;
-    setCateValue(updatedList);
-    
+   
+    const updatedList = [...categories];
+    updatedList.splice(index, 1);
+    setCategories(updatedList);
+
     setTimeout(() => {
-      const newList = [...cateValue];
-      newList.splice(index, 1);
-      setCateValue(newList);
-    }, 500); // Adjust timing to match the CSS transition duration
+      setCateValue(prevState => {
+       
+        const newList = [...prevState];
+        
+       
+        newList.splice(index, 1);
+        
+       
+        return newList;
+      });
+    }, 500);
   };
 
   // List Dsc End ----------
@@ -186,7 +191,7 @@ const Upload = () => {
       <div className="input">
         <div className="col">
           {/* ttile-------------- */}
-          
+
           <input
             className="title"
             type="text"
@@ -222,7 +227,7 @@ const Upload = () => {
           />
 
           {/* ----------pcate */}
-         
+
           <label htmlFor="pCate"> Select Primary categore</label>
           <select id="mySelect" name="pCate" onChange={handleChange}>
             <option value="Website">Website</option>
@@ -236,9 +241,8 @@ const Upload = () => {
         <div className="col">
           {/* -------------Cate */}
           <div className="items">
-            <Items data={categories} remove={handleRemoveCate}/>
-        
-      </div>
+            <Items data={categories} remove={handleRemoveCate} />
+          </div>
           <input
             className="cate"
             type="text"
@@ -264,7 +268,7 @@ const Upload = () => {
             onChange={handleChange}
           />
           {/* product type-------------- */}
-          
+
           <input
             className="product-type"
             type="text"
@@ -291,64 +295,49 @@ const Upload = () => {
             onChange={handleChange}
           />
 
-          
+          <input
+            type="text"
+            value={textDsc.title}
+            placeholder="Add Title"
+            onChange={(e) => handleInputDesc(e, "title")}
+          />
+
+          <div>
             <input
               type="text"
-              value={textDsc.title}
-              placeholder="Add Title"
-              onChange={(e) => handleInputDesc(e, "title")}
+              value={textDsc.desc}
+              placeholder="Add Description"
+              onChange={(e) => handleInputDesc(e, "desc")}
             />
-         
-          <div>
-            
-              <input
-                type="text"
-                value={textDsc.desc}
-                placeholder="Add Description"
-                onChange={(e) => handleInputDesc(e, "desc")}
-              />
-           
+
             <button className="upbtn" onClick={handleAddtextDesc}>
               Add Desc
             </button>
             <div className="items">
-             <Items data={textDesc} remove={handleRemoveDesc}/>
-              
+              <Items data={textDesc} remove={handleRemoveDesc} />
             </div>
             {/* -------------List Desc starts ---- */}
-           
-              <input
-                type="text"
-                value={listDsc.icon}
-                placeholder=" Add Icon"
-                onChange={(e) => handleInputChange(e, "icon")}
-              />
-           
+
+            <input
+              type="text"
+              value={listDsc.icon}
+              placeholder=" Add Icon"
+              onChange={(e) => handleInputChange(e, "icon")}
+            />
           </div>
           <div>
-           
-              <input
-                type="text"
-                value={listDsc.Icontitle}
-                placeholder="Add title"
-                onChange={(e) => handleInputChange(e, "Icontitle")}
-              />
-            
+            <input
+              type="text"
+              value={listDsc.Icontitle}
+              placeholder="Add title"
+              onChange={(e) => handleInputChange(e, "Icontitle")}
+            />
+
             <button className="upbtn" onClick={handleAddItem}>
               Add Item
             </button>
             <div className="items">
-              <Items data={listDesc} remove={handleRemoveItem}/>
-              {/* <ul>
-                {listDesc.map((item, index) => (
-                  <li key={index}>
-                    Icon: {item.icon}, Title: {item.title}
-                    <button onClick={() => handleRemoveItem(index)}>
-                      Remove Item
-                    </button>
-                  </li>
-                ))}
-              </ul> */}
+              <Items data={listDesc} remove={handleRemoveItem} />
             </div>
           </div>
         </div>

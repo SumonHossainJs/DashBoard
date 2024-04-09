@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Items = ({ data, remove }) => {
-  console.log(data);
+  
 
   
   const isValidData = Array.isArray(data) && data.every(item => {
