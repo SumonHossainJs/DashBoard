@@ -14,6 +14,8 @@ const Upload = () => {
 
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
+  const [urls, setUrls] = useState([]);
+  const [urlValue, setUrlValue] = useState("");
 
   const [inputs, setInputs] = useState({
     title: "",
@@ -51,6 +53,15 @@ const Upload = () => {
       const newCategory = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
       setCategories((prevCategories) => [...prevCategories, newCategory]); // Update categories
       setCateValue(""); // Clear input field
+    }
+  };
+  const handleUrlArrayChange = (e, index, name) => {
+    const value = e.target.value;
+    setUrlValue(value);
+    if (value.endsWith(",")) {
+      const urls = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
+      setUrls((prevCategories) => [...prevCategories, urls]); // Update categories
+      setUrlValue(""); // Clear input field
     }
   };
   // -----------List DSC"
@@ -126,6 +137,25 @@ const Upload = () => {
 
     setTimeout(() => {
       setCateValue(prevState => {
+       
+        const newList = [...prevState];
+        
+       
+        newList.splice(index, 1);
+        
+       
+        return newList;
+      });
+    }, 500);
+  };
+  const handleRemoveUrl = (index) => {
+   
+    const updatedList = [...urls];
+    updatedList.splice(index, 1);
+    setUrls(updatedList);
+
+    setTimeout(() => {
+      setUrlValue(prevState => {
        
         const newList = [...prevState];
         
@@ -218,12 +248,16 @@ const Upload = () => {
             onChange={handleChange}
           />
           {/* ----------gellary */}
+          <div className="items">
+            <Items data={urls} remove={handleRemoveUrl}/>
+          </div>
           <input
             className="gallery"
             type="text"
             placeholder="Gallery Image URL (comma separated)"
             name="gallery"
-            onChange={(e) => handleArrayChange(e, 0, "gallery")}
+            value={urlValue}
+            onChange={(e) => handleUrlArrayChange(e, 0, "gallery")}
           />
 
           {/* ----------pcate */}

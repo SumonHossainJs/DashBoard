@@ -15,7 +15,7 @@ const Items = ({ data, remove }) => {
   return (
     <ul>
       {isValidData ? (
-        // If data is valid, render the list with formatted items
+       
         data.map((item, index) => (
           <li key={index} className={item.fadeOut ? "fadeOut hidden" : "fadeOut"} onClick={() => remove(index)}>
             {item.title ? "Title" : "Icon"}: {item.title ? item.title : item.icon},<br/> 
