@@ -344,7 +344,7 @@ const Upload = () => {
               onChange={(e) => handleInputDesc(e, "desc")}
             />
 
-            <button className="upbtn" onClick={handleAddtextDesc}>
+            <button className="AddItems" onClick={handleAddtextDesc}>
               Add Desc
             </button>
             <div className="items">
@@ -367,7 +367,7 @@ const Upload = () => {
               onChange={(e) => handleInputChange(e, "Icontitle")}
             />
 
-            <button className="upbtn" onClick={handleAddItem}>
+            <button className="AddItems" onClick={handleAddItem}>
               Add Item
             </button>
             <div className="items">

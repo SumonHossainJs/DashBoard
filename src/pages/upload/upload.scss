@@ -20,16 +20,20 @@
                 textarea,select {
                   width: 100%;
                   padding: 10px;
-                  margin-bottom: 10px;
-                  border: 1px solid #ffffff5c;
-                  background-color: rgba(255, 255, 255, 0.123);
+                  margin-bottom: 15px;
+                  border: 1px solid #ffffff30;
+                  background-color: rgba(255, 255, 255, 0.023);
                   color: white;
                   border-radius: 5px;
                   box-sizing: border-box;
                 }
-                input::placeholder {
+                textarea,select,input::placeholder {
                     color: #ffffff; 
                 }
+                textarea::placeholder {
+                  color: #ffffff; 
+                  font-family: inherit;
+              }
                 input {
                     height: 50px;
                 }
@@ -62,7 +66,7 @@
                         background-color: #f90e0e; // Change background color of dropdown menu
                       }
                   }
-                  .upbtn{
+                  .AddItems{
                     background-color: #ffffff2b;
                     border: none;
                     padding: 10px 15px;
@@ -132,5 +136,18 @@
               
             
         }
+    }
+    .upbtn{
+      background-color: rgba(148, 146, 146, 0.056);
+      border: 1px solid gray;
+      padding: 15px 25px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 10px;
+      transition: all .5s ease;
+      &:hover{
+        background-color: rgba(148, 146, 146, 0.327);
+        border: 1px solid rgba(128, 128, 128, 0.342);
+      }
     }
 }
