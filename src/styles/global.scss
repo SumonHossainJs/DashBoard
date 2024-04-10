@@ -22,13 +22,43 @@ a {
   display: flex;
 }
 
+// .menuContainer {
+//   width: 250px;
+//   padding: 5px 20px;
+//   border-right: 2px solid $soft-bg;
+//   transition: all .5s ease;
+
+//   @include lg{
+//     width: max-content;
+//   }
+//   @include mds{
+//     display: none;
+//   }
+// }
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
   border-right: 2px solid $soft-bg;
+  transition: all .5s ease;
+  opacity: 0;
+  transform: translateX(-100%); // Off-screen initially
+}
 
-  @include lg{
+.menuContainer.visible {
+  opacity: 1;
+  transform: translateX(0); // Slide in on visibility
+}
+
+// Define media queries as needed
+@include lg {
+  .menuContainer {
     width: max-content;
+  }
+}
+
+@include mds {
+  .menuContainer {
+    display: none;
   }
 }
 

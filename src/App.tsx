@@ -1,32 +1,52 @@
-import Home from "./pages/home/Home";
+import Home from "./pages/home/Home.js";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Users from "./pages/users/Users";
-import Products from "./pages/products/Products";
-import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
-import Menu from "./components/menu/Menu";
-import Login from "./pages/login/Login";
+import Users from "./pages/users/Users.js";
+import Products from "./pages/products/Products.js";
+import Navbar from "./components/navbar/Navbar.js";
+import Footer from "./components/footer/Footer.js";
+import Menu from "./components/menu/Menu.js";
+import Login from "./pages/login/Login.js";
 import "./styles/global.scss";
-import User from "./pages/user/User";
-import Product from "./pages/product/Product";
+import User from "./pages/user/User.js";
+import Product from "./pages/product/Product.js";
 import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import Upload from "./pages/upload/Upload.jsx";
+import { useEffect, useState } from "react";
 
 
 const queryClient = new QueryClient();
 
 function App() {
   const Layout = () => {
+    const [isMenuVisible, setIsMenuVisible] = useState(true);
+    useEffect(() => {
+      const handleResize = () => {
+        const screenWidth = window.innerWidth;
+        setIsMenuVisible(screenWidth >= 540); 
+      };
+  
+      handleResize(); 
+  
+      window.addEventListener('resize', handleResize); // 
+  
+      return () => {
+        window.removeEventListener('resize', handleResize); 
+      };
+    }, []); 
+
+    const toggleMenu = () => {
+      setIsMenuVisible(!isMenuVisible);
+    };
     return (
       <div className="main">
         <Navbar />
         <div className="container">
-          <div className="menuContainer">
-            <Menu />
-          </div>
+        <div className={`menuContainer ${isMenuVisible ? 'visible' : ''}`}>
+        <Menu />
+      </div>
           <div className="contentContainer">
             <QueryClientProvider client={queryClient}>
               <Outlet />
