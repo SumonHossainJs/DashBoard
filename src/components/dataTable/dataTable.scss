@@ -1,9 +1,10 @@
 .dataTable{
 
   .dataGrid{
-    background: white;
+    background: transparent;
     padding: 20px;
-
+    color: rgba(255, 255, 255, 0.478);
+    border: 1px solid rgba(128, 128, 128, 0.557);
     .MuiDataGrid-toolbarContainer{
       flex-direction: row-reverse;
     }
@@ -13,17 +14,23 @@
       height: 32px;
       border-radius: 50%;
       object-fit: cover;
+      
     }
 
     .action{
       display: flex;
       gap: 15px;
+     
 
       img{
         width: 20px;
         height: 20px;
         cursor: pointer;
+       
       }
     }
   }
+}
+.customClassName{
+  display: none;
 }

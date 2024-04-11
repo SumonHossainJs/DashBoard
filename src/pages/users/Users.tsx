@@ -45,12 +45,16 @@ const columns: GridColDef[] = [
     headerName: "Created At",
     width: 200,
     type: "string",
+    renderCell: (params) => (
+      <div className="customClassName">{params.value}</div>
+    )
   },
   {
     field: "verified",
     headerName: "Verified",
     width: 150,
     type: "boolean",
+   
   },
 ];
 
