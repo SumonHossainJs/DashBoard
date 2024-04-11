@@ -26,6 +26,9 @@ a {
     padding: 5px 20px;
     width: calc(100% - 250px);
     transition: all .5s ease;
+    @include mds {
+      width: 100%;
+    }
   }
 }
 .container.hidden {
@@ -37,9 +40,17 @@ a {
     width: 100%;
     transition: width 1s ease;
   }
-}
+ 
+  }
 
 
+
+  .menuContainer.visible {
+    opacity: 1;
+    transform: translateX(0);
+     
+     position: relative;
+  } 
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
@@ -50,15 +61,34 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  
+  .expand-btn{
+    opacity: 0;
+    display: none;
+  }
+
+
+}
+@include sm {
+  .menuContainer.visible  {
+    position: fixed;
+    left: 0;
+    background-color: $soft-bg;
+    border-radius: 10px;
+    overflow-x: auto;
+    .expand-btn{
+      display: block;
+      opacity: 1;
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateX(-50%);
+      z-index: 100000;
+      
+    }
+  }
 }
 
-.menuContainer.visible {
-  opacity: 1;
-  transform: translateX(0);
-   
-   position: relative;
-}
+
 
 // Define media queries as needed
 @include lg {
@@ -67,10 +97,6 @@ a {
   }
 }
 
-@include mds {
-  .menuContainer {
-    display: none;
-  }
-}
+
 
 

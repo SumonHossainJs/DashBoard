@@ -25,7 +25,7 @@ function App() {
     useEffect(() => {
       const handleResize = () => {
         const screenWidth = window.innerWidth;
-        setIsMenuVisible(screenWidth >= 540); 
+        setIsMenuVisible(screenWidth >= 440); 
       };
   
       handleResize(); 
@@ -45,6 +45,7 @@ function App() {
         <Navbar toggleMenu={toggleMenu} />
         <div className={`container ${!isMenuVisible? "hidden":"visible"  }`}>
         <div className={`menuContainer ${isMenuVisible ? 'visible' : ''}`}>
+          <button className="expand-btn"><img src="/expand.svg" alt="" className="icon" /></button>
         <Menu />
       </div>
           <div className="contentContainer">
