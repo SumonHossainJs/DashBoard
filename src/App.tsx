@@ -43,7 +43,7 @@ function App() {
     return (
       <div className="main">
         <Navbar toggleMenu={toggleMenu} />
-        <div className="container">
+        <div className={`container ${!isMenuVisible? "hidden":"visible"  }`}>
         <div className={`menuContainer ${isMenuVisible ? 'visible' : ''}`}>
         <Menu />
       </div>
