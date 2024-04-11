@@ -12,7 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleMenu }) => {
       </div>
       <div className="icons">
         <img src="/search.svg" alt="" className="icon" />
-        <img src="/app.svg" alt="" className="iconw"onClick={toggleMenu}/>
+        <img src="/app.svg" alt="" className="icon"onClick={toggleMenu}/>
         <img src="/expand.svg" alt="" className="icon" />
         <div className="notification">
           <img src="/notifications.svg" alt="" />

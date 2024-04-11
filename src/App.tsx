@@ -45,7 +45,7 @@ function App() {
         <Navbar toggleMenu={toggleMenu} />
         <div className={`container ${!isMenuVisible? "hidden":"visible"  }`}>
         <div className={`menuContainer ${isMenuVisible ? 'visible' : ''}`}>
-          <button className="expand-btn"><img src="/expand.svg" alt="" className="icon" /></button>
+          <img className="expand-btn" src="/expand.svg" alt=""  onClick={toggleMenu}/>
         <Menu />
       </div>
           <div className="contentContainer">
