@@ -1,7 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./Users.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Add from "../../components/add/Add";
 import { userRows } from "../../data";
 // import { useQuery } from "@tanstack/react-query";
@@ -60,6 +60,7 @@ const columns: GridColDef[] = [
 
 const Users = () => {
   const [open, setOpen] = useState(false);
+  const [filteredColumns, setFilteredColumns] = useState<GridColDef[]>(columns);
 
   // TEST THE API
 
@@ -70,6 +71,35 @@ const Users = () => {
   //       (res) => res.json()
   //     ),
   // });
+  useEffect(() => {
+    const updateColumns = () => {
+     
+      const screenWidth = window.innerWidth;
+
+      
+      if (screenWidth < 768) {
+       
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"));
+      } else if(screenWidth < 1024) {
+       
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName"));
+      }else{
+        setFilteredColumns(columns)
+      }
+    };
+
+    // Initial column setup
+    updateColumns();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", updateColumns);
+
+   
+    return () => {
+      window.removeEventListener("resize", updateColumns);
+    };
+  }, []);
+
 
   return (
     <div className="users">
@@ -77,7 +107,7 @@ const Users = () => {
         <h1>Users</h1>
         <button onClick={() => setOpen(true)}>Add New User</button>
       </div>
-      <DataTable slug="users" columns={columns} rows={userRows} />
+      <DataTable slug="users" columns={filteredColumns} rows={userRows} />
       {/* TEST THE API */}
 
       {/* {isLoading ? (

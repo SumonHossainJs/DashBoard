@@ -1,6 +1,9 @@
 .dataTable{
-
+ 
+  min-width: 100%;
   .dataGrid{
+  width: 100%;
+
     background: transparent;
     padding: 20px;
     color: rgba(255, 255, 255, 0.478);
@@ -30,7 +33,4 @@
       }
     }
   }
-}
-.customClassName{
-  display: none;
 }

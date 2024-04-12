@@ -29,6 +29,9 @@ a {
     @include mds {
       width: 100%;
     }
+    @include lg {
+      width: 100%;
+    }
   }
 }
 .container.hidden {
