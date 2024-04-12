@@ -4,7 +4,6 @@ import "./Users.scss";
 import { useEffect, useState } from "react";
 import Add from "../../components/add/Add";
 import { userRows } from "../../data";
-// import { useQuery } from "@tanstack/react-query";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -19,7 +18,7 @@ const columns: GridColDef[] = [
   {
     field: "firstName",
     type: "string",
-    headerName: "First name",
+    headerName: "Name",
     width: 150,
   },
   {
@@ -43,7 +42,7 @@ const columns: GridColDef[] = [
   {
     field: "createdAt",
     headerName: "Created At",
-    width: 200,
+    width: 100,
     type: "string",
     renderCell: (params) => (
       <div className="customClassName">{params.value}</div>
@@ -52,39 +51,37 @@ const columns: GridColDef[] = [
   {
     field: "verified",
     headerName: "Verified",
-    width: 150,
+    width: 100,
     type: "boolean",
-   
   },
 ];
 
 const Users = () => {
   const [open, setOpen] = useState(false);
   const [filteredColumns, setFilteredColumns] = useState<GridColDef[]>(columns);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  // TEST THE API
-
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["allusers"],
-  //   queryFn: () =>
-  //     fetch("http://localhost:8800/api/users").then(
-  //       (res) => res.json()
-  //     ),
-  // });
   useEffect(() => {
     const updateColumns = () => {
-     
       const screenWidth = window.innerWidth;
-
       
-      if (screenWidth < 768) {
-       
+      if (screenWidth < 480) {
+        const filter = columns.filter(col => col.field === "id" || col.field === "firstName")
+        const addwidth = filter.map(col => {
+          if (col.field === "firstName") {
+            return { ...col, width: 110 };
+          } else if (col.field === "id") {
+            return { ...col, width: 55 }; 
+          }
+          return col;
+        })
+        setFilteredColumns(addwidth);
+      } else if (screenWidth < 768) {
         setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"));
-      } else if(screenWidth < 1024) {
-       
-        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName"));
-      }else{
-        setFilteredColumns(columns)
+      } else if (screenWidth < 1024) {
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"));
+      } else if (screenWidth < 1400) {
+        setFilteredColumns(columns);
       }
     };
 
@@ -94,12 +91,10 @@ const Users = () => {
     // Add event listener for window resize
     window.addEventListener("resize", updateColumns);
 
-   
     return () => {
       window.removeEventListener("resize", updateColumns);
     };
   }, []);
-
 
   return (
     <div className="users">
@@ -107,14 +102,7 @@ const Users = () => {
         <h1>Users</h1>
         <button onClick={() => setOpen(true)}>Add New User</button>
       </div>
-      <DataTable slug="users" columns={filteredColumns} rows={userRows} />
-      {/* TEST THE API */}
-
-      {/* {isLoading ? (
-        "Loading..."
-      ) : (
-        <DataTable slug="users" columns={columns} rows={data} />
-      )} */}
+      <DataTable slug="users" columns={filteredColumns} rows={userRows}/>
       {open && <Add slug="user" columns={columns} setOpen={setOpen} />}
     </div>
   );

@@ -5,40 +5,49 @@ import {
 } from "@mui/x-data-grid";
 import "./dataTable.scss";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+
 
 type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  
 };
 
 const DataTable = (props: Props) => {
 
-  // TEST THE API
 
-  // const queryClient = useQueryClient();
-  // // const mutation = useMutation({
-  // //   mutationFn: (id: number) => {
-  // //     return fetch(`http://localhost:8800/api/${props.slug}/${id}`, {
-  // //       method: "delete",
-  // //     });
-  // //   },
-  // //   onSuccess: ()=>{
-  // //     queryClient.invalidateQueries([`all${props.slug}`]);
-  // //   }
-  // // });
 
-  const handleDelete = (id: number) => {
-    //delete the item
-    // mutation.mutate(id)
+  const [width, setWidth] = useState(0); // Initialize state with a default value
+
+  const updateSize = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth < 480) {
+      setWidth(80);
+    } else {
+      setWidth(100);
+    }
+  }
+
+useEffect(() => {
+ 
+  updateSize();
+
+  // Add event listener for window resize
+  window.addEventListener("resize", updateSize);
+
+  return () => {
+    window.removeEventListener("resize", updateSize);
   };
+}, []);
 
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
-    width: 200,
+    width: width,
     renderCell: (params) => {
       return (
         <div className="action">

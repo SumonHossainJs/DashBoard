@@ -32,6 +32,9 @@ a {
     @include lg {
       width: 100%;
     }
+    @include xxl {
+      width: fit-content;
+    }
   }
 }
 .container.hidden {
