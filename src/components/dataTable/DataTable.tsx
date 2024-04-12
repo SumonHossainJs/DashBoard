@@ -43,6 +43,9 @@ useEffect(() => {
     window.removeEventListener("resize", updateSize);
   };
 }, []);
+const handleDelete = ({}) =>{
+
+}
 
   const actionColumn: GridColDef = {
     field: "action",

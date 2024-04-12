@@ -76,10 +76,16 @@ const Users = () => {
           return col;
         })
         setFilteredColumns(addwidth);
+      } else if (screenWidth < 540) {
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" ));
       } else if (screenWidth < 768) {
         setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"));
       } else if (screenWidth < 1024) {
-        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"));
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName" || col.field === "email" ));
+      } else if (screenWidth < 1200) {
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName"|| col.field === "email" ||col.field === "verified"));
+      } else if (screenWidth < 1300) {
+        setFilteredColumns(columns.filter(col => col.field === "id" || col.field === "firstName" || col.field === "lastName" || col.field === "email" || col.field === "phone"));
       } else if (screenWidth < 1400) {
         setFilteredColumns(columns);
       }
