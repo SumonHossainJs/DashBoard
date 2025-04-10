@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import "./Upload.scss";
+import "./upload.scss";
 import axios from "axios";
 import Items from "./elements/Items";
 import { showSuccessAlert } from "../../Utils/Alert";
