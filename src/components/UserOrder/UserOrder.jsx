@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import newRequest from "../../Utils/newRequest";
 import { Link } from "react-router-dom";
-import "./userOrder.scss";
+import "./UserOrder.scss";
 
 const UserOrder = ({ lastId }) => {
   const [orders, setOrders] = useState([]);
