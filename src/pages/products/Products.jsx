@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Products.scss";
+import "./products.scss";
 import Add from "../../components/add/Add";
 
 import axios from "axios";
