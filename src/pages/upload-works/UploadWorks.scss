@@ -1,0 +1,153 @@
+.updiv{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    .input{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        .col{
+            max-width: 500px;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            
+            
+                input,
+                textarea,select {
+                  width: 100%;
+                  padding: 10px;
+                  margin-bottom: 15px;
+                  border: 1px solid #ffffff30;
+                  background-color: rgba(255, 255, 255, 0.023);
+                  color: white;
+                  border-radius: 5px;
+                  box-sizing: border-box;
+                }
+                textarea,select,input::placeholder {
+                    color: #ffffff; 
+                }
+                textarea::placeholder {
+                  color: #ffffff; 
+                  font-family: inherit;
+              }
+                input {
+                    height: 50px;
+                }
+                label{
+                    font-size: 12px;
+                    padding-bottom: 10px;
+                    padding-top: 15px;
+                }
+                #mySelect {
+                    width: 200px; 
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: rgba(255, 255, 255, 0.123);
+                    color: white;
+                    cursor: pointer;
+                    outline: none; // Remove default outline
+                  
+                    &:hover,
+                    &:focus {
+                      border-color: #aaa; // Change border color on hover and focus
+                    }
+                    
+                    & option {
+                      background-color: #ffffff23; // Background color of options
+                      color: #333; // Text color of options
+                    }
+                    &:focus + div {
+                        background-color: #f90e0e; // Change background color of dropdown menu
+                      }
+                  }
+                  .AddItems{
+                    background-color: #ffffff2b;
+                    border: none;
+                    padding: 10px 15px;
+                    color:white;
+                    border-radius: 5px;
+                    margin:  10px 0;
+                    transition: all 0.5s ease;
+                    &:hover{
+                        box-shadow: 0 0 10px black;
+                    }
+                  }
+                  .items{
+                    width: 400px;
+                    ul{
+                        list-style: none;
+                        li{
+                          cursor: pointer; 
+                          border: .5px solid rgba(128, 128, 128, 0.309);
+                          width: fit-content;
+                          padding: 10px;
+                          margin: 5px;
+                          border-radius: 10px; 
+                          transition: all .5s ease;
+                            display: inline-block;
+                            max-width: 200px;
+                            position: relative;
+                            box-shadow: inset 0px 0px 10px 5px rgba(247, 246, 246, 0.053); // Inner shadow
+                            
+                            span{
+                                position: absolute;
+                                
+                                top: 1px;
+                                right: 0px;
+                                opacity: 0;
+                                
+                                border-radius:2px  10px 2px  5px;
+                                transition: all .5s ease;
+                                font-size: .8rem;
+                                background-color: red;
+                                width: 20px;
+                                height: 20px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                               
+                              }
+                          &:hover{
+                            border: 1px solid rgba(249, 112, 112, 0.534);
+                            box-shadow: 0 0 10px  rgba(251, 132, 132, 0.381);
+                            
+                            span{
+                                opacity: 1;
+                                color: rgb(255, 255, 255);
+                            }
+                          }
+                          
+                        }
+                        .fadeOut {
+                            opacity: 1;
+                            transition: all 0.5s ease-out; /* Adjust timing and easing as needed */
+                          }
+                          .fadeOut.hidden {
+                            opacity: 0;
+                          }
+                    }
+                  }
+              
+            
+        }
+    }
+    .upbtn{
+      background-color: rgba(148, 146, 146, 0.056);
+      border: 1px solid gray;
+      padding: 15px 25px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 10px;
+      transition: all .5s ease;
+      &:hover{
+        background-color: rgba(148, 146, 146, 0.327);
+        border: 1px solid rgba(128, 128, 128, 0.342);
+      }
+    }
+}

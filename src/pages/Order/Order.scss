@@ -1,0 +1,67 @@
+@import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
+
+
+.table-container {
+    padding: 20px;
+    width: 100%;
+  
+    .responsive-table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #2d3748;
+      }
+  
+      th {
+        background-color: #3b4c5a;
+        color: rgb(254, 254, 254);
+      }
+  
+      .even-row {
+        background-color: #1e293b;
+        color: white;
+      }
+  
+      .odd-row {
+        background-color: #283b50;
+        color: white;
+      }
+  
+      .avatar {
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      .responsive-table {
+        font-size: 12px;
+  
+        .avatar {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+  
+    @include sm {
+      .created {
+        display: none;
+      }
+      .email {
+        display: none;
+      }
+    }
+  
+    button {
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+  

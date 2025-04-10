@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import "./Upload.scss";
 import axios from "axios";
 import Items from "./elements/Items";
+import { showSuccessAlert } from "../../Utils/Alert";
+import newRequest from "../../Utils/newRequest";
 // import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
@@ -14,15 +16,21 @@ const Upload = () => {
 
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
+
+   const [features, setfeatures] = useState([]);
+  
+    const [featuresValue, setfeaturesValue] = useState("");
+
   const [urls, setUrls] = useState([]);
   const [urlValue, setUrlValue] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const [inputs, setInputs] = useState({
     title: "",
     thumbnail: "",
     hoverThumbnail: "",
     gallery: [],
-    pCate: "",
+    
 
     price: 0,
     salePrice: 0,
@@ -50,21 +58,21 @@ const Upload = () => {
     const value = e.target.value;
     setCateValue(value);
     if (value.endsWith(",")) {
-      const newCategory = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
-      setCategories((prevCategories) => [...prevCategories, newCategory]); // Update categories
-      setCateValue(""); // Clear input field
+      const newCategory = value.slice(0, -1).trim(); 
+      setCategories((prevCategories) => [...prevCategories, newCategory]); 
+      setCateValue(""); 
     }
   };
   const handleUrlArrayChange = (e, index, name) => {
     const value = e.target.value;
     setUrlValue(value);
     if (value.endsWith(",")) {
-      const urls = value.slice(0, -1).trim(); // Remove the comma and trim whitespace
-      setUrls((prevCategories) => [...prevCategories, urls]); // Update categories
-      setUrlValue(""); // Clear input field
+      const urls = value.slice(0, -1).trim(); 
+      setUrls((prevCategories) => [...prevCategories, urls]);
+      setUrlValue(""); 
     }
   };
-  // -----------List DSC"
+ 
   const handleInputChange = (event, field) => {
     setlistDsc({
       ...listDsc,
@@ -84,7 +92,7 @@ const Upload = () => {
       setListDesc([...listDesc, listDsc]);
 
       setlistDsc({ icon: "", Icontitle: "" });
-      console.log(listDesc);
+     
     } else {
       alert("Both icon and title are required.");
     }
@@ -99,12 +107,7 @@ const Upload = () => {
     }
   };
 
-  const handleLogListDesc = () => {
-    console.log("listDesc:", listDesc);
-  };
-  const handleLogtextDesc = () => {
-    console.log("textDesc:", textDesc);
-  };
+ 
 
   const handleRemoveItem = (index) => {
     const updatedList = [...listDesc];
@@ -195,23 +198,43 @@ const Upload = () => {
       return { ...prev, [arrayName]: newArray };
     });
   };
+ 
+  const handleArrayInputChange = (value, setValue, setArray, separator = ",") => {
+    if (value.endsWith(separator)) {
+      setArray((prev) => [...prev, value.slice(0, -1).trim()]);
+      setValue("");
+    } else {
+      setValue(value);
+    }
+  };
+
+  
 
   const handleUpload = async (e) => {
     e.preventDefault();
-
-    console.log({
+    const payload = {
       title: inputs.title,
       thumbnail: inputs.thumbnail,
       hoverThumbnail: inputs.hoverThumbnail,
       gallery: urls,
-      pCate: inputs.pCate,
+      pCate: selectedCategory,
       cate: categories,
       price: inputs.price,
       salePrice: inputs.salePrice,
       productType: inputs.productType,
-      shortDes: inputs.shortDes,
+      shortDes: { text:inputs.shortDes.text, listItem : features},
       description: { textDesc: textDesc, listDesc: listDesc },
-    });
+    };
+
+    console.log(payload);
+    try {
+      const res = await newRequest.post("/product/upload", payload);
+      showSuccessAlert("product added successfully.");
+      console.log(res);
+      
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -263,12 +286,11 @@ const Upload = () => {
           {/* ----------pcate */}
 
           <label htmlFor="pCate"> Select Primary categore</label>
-          <select id="mySelect" name="pCate" onChange={handleChange}>
-            <option value="Website">Website</option>
-            <option value="Mobile App">Mobile App</option>
-            <option value="Brand design">Brand Design</option>
-            <option value="Logo Design">Logo design</option>
-            <option value="Motion Design">Motion Design</option>
+          <select id="mySelect" name="pCate" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+          <option value="website">Website</option>
+            <option value="mobile-app">Mobile App</option>
+            <option value="graphic-design">Graphic Design</option>
+            <option value="motion">Motion Design</option>
           </select>
         </div>
 
@@ -321,12 +343,15 @@ const Upload = () => {
           {/* --------short-des list item */}
         </div>
         <div className="col">
-          <textarea
-            className="shortDes-listItem"
-            placeholder="Short Description List Item"
+
+        <div className="items">
+            <Items data={features} remove={(index) => handleRemoveItem(index, setfeatures)} />
+          </div>
+        <textarea
+            placeholder="Short Description List Item (separated by coma)"
             name="shortDes.listItem"
-            rows={3}
-            onChange={handleChange}
+            value={featuresValue}
+            onChange={(e) => handleArrayInputChange(e.target.value, setfeaturesValue, setfeatures)}
           />
 
           <input

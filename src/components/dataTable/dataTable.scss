@@ -1,18 +1,20 @@
 @import "../../styles/responsive.scss";
+@import "../../styles/variables.scss";
 .dataTable {
   min-width: 100%;
 z-index: 9;
 position: relative;
+
   .dataGrid {
     width: 100%;
     z-index: -1;
-    background: transparent;
+    background-color: $soft-bg;
     padding: 20px;
     color: rgba(255, 255, 255, 0.478);
     border: 1px solid rgba(128, 128, 128, 0.557);
    
     @include xxxl {
-      width: fit-content;
+      width: 100%;
      
     }
     .MuiDataGrid-toolbarContainer {

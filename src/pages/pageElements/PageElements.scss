@@ -1,0 +1,142 @@
+@import "../../styles/variables.scss";
+
+.pl-con {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ 
+  h4{
+    margin-top: 20px;
+  }
+  .add-notice {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border-bottom: 1px solid $soft-color;
+    input {
+      background-color: transparent;
+      border: none;
+      color: inherit;
+      font-size: 20px;
+      border-bottom: 1px solid gray;
+      padding: 10px;
+      outline: none;
+    }
+    button{
+        padding: 10px 20px ;
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+    }
+
+
+  }
+  .notice-items {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+  
+    .box{
+      background-image: url("/assets/campaign-bg2.png");
+      background-repeat: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      position: relative;
+
+      .notice-box,.inputs{
+        padding: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        
+        input{
+          padding: 10px;
+          background-color: $dark-bg;
+          border: none;
+          border-bottom:1px solid rgb(129, 127, 127) ;
+          outline: none;
+          color: $soft-color;
+          font-size: 16px;
+          border-radius: 5px;
+        }
+        .notice{
+          display: flex;
+          gap: 20px;
+          
+          
+        }
+        .btns{
+          position: absolute;
+          top: 4px;
+          right: 4px;
+          display: flex;
+          gap: 10px;
+          button{
+            padding: 10px ;
+            border: none;
+            border-radius: 10px;
+            &:last-child{
+              box-shadow: 0 0 10px red;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+    .box {
+      border: 1px solid gray;
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      
+      .notice{
+        width: 100%;
+        
+      }
+
+      .inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        input {
+          background-color: transparent;
+          border: none;
+          color: inherit;
+          font-size: 20px;
+          border-bottom: 1px solid gray;
+          padding: 10px;
+          outline: none;
+        }
+      }
+      h3 {
+        font-weight: 400;
+        padding: 10px 0;
+      }
+      .btns {
+        display: flex;
+        gap: 10px;
+        button {
+          padding: 5px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}
