@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import DataTable from "../../components/dataTable/DataTable";
-import "./Users.scss";
+import "./users.scss";
 import Add from "../../components/add/Add";
 import { userRows } from "../../data";
 import newRequest from "../../Utils/newRequest";
