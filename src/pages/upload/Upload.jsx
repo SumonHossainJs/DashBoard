@@ -1,11 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./upload.scss";
-import axios from "axios";
 import Items from "./elements/Items";
 import { showSuccessAlert } from "../../Utils/Alert";
 import newRequest from "../../Utils/newRequest";
-// import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
   const [listDsc, setlistDsc] = useState({ icon: "", Icontitle: "" });
@@ -17,21 +15,18 @@ const Upload = () => {
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
 
-   const [features, setfeatures] = useState([]);
-  
-    const [featuresValue, setfeaturesValue] = useState("");
+  const [features, setfeatures] = useState([]);
+  const [featuresValue, setfeaturesValue] = useState("");
 
   const [urls, setUrls] = useState([]);
   const [urlValue, setUrlValue] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [inputs, setInputs] = useState({
     title: "",
     thumbnail: "",
     hoverThumbnail: "",
     gallery: [],
-    
-
     price: 0,
     salePrice: 0,
     productType: "",
@@ -40,59 +35,65 @@ const Upload = () => {
       listItem: "",
     },
     description: {
-      textDesc: [
-        {
-          title: "",
-          text: "",
-        },
-      ],
-      listDesc: [
-        {
-          icon: "",
-          Icontitle: "",
-        },
-      ],
+      textDesc: [{ title: "", text: "" }],
+      listDesc: [{ icon: "", Icontitle: "" }],
     },
   });
-  const handleCateArrayChange = (e, index, name) => {
+
+  const handleCateArrayChange = (e) => {
     const value = e.target.value;
     setCateValue(value);
     if (value.endsWith(",")) {
-      const newCategory = value.slice(0, -1).trim(); 
-      setCategories((prevCategories) => [...prevCategories, newCategory]); 
-      setCateValue(""); 
+      const newCategory = value.slice(0, -1).trim();
+      if (newCategory) {
+        setCategories((prev) => [...prev, newCategory]);
+        setCateValue("");
+      }
     }
   };
-  const handleUrlArrayChange = (e, index, name) => {
+
+  const handleUrlArrayChange = (e) => {
     const value = e.target.value;
     setUrlValue(value);
     if (value.endsWith(",")) {
-      const urls = value.slice(0, -1).trim(); 
-      setUrls((prevCategories) => [...prevCategories, urls]);
-      setUrlValue(""); 
+      const newUrl = value.slice(0, -1).trim();
+      if (newUrl) {
+        setUrls((prev) => [...prev, newUrl]);
+        setUrlValue("");
+      }
     }
   };
- 
-  const handleInputChange = (event, field) => {
+
+  const handleArrayInputChange = (value, setValue, setArray, separator = ",") => {
+    if (value.endsWith(separator)) {
+      const item = value.slice(0, -1).trim();
+      if (item) {
+        setArray((prev) => [...prev, item]);
+        setValue("");
+      }
+    } else {
+      setValue(value);
+    }
+  };
+
+  const handleInputChange = (e, field) => {
     setlistDsc({
       ...listDsc,
-      [field]: event.target.value,
+      [field]: e.target.value,
     });
-    console.log(listDsc);
   };
-  const handleInputDesc = (event, field) => {
+
+  const handleInputDesc = (e, field) => {
     setTextDsc({
       ...textDsc,
-      [field]: event.target.value,
+      [field]: e.target.value,
     });
   };
 
   const handleAddItem = () => {
     if (listDsc.icon && listDsc.Icontitle) {
       setListDesc([...listDesc, listDsc]);
-
       setlistDsc({ icon: "", Icontitle: "" });
-     
     } else {
       alert("Both icon and title are required.");
     }
@@ -107,71 +108,29 @@ const Upload = () => {
     }
   };
 
- 
-
   const handleRemoveItem = (index) => {
     const updatedList = [...listDesc];
-    updatedList[index].fadeOut = true;
+    updatedList.splice(index, 1);
     setListDesc(updatedList);
-
-    setTimeout(() => {
-      const newList = [...listDesc];
-      newList.splice(index, 1);
-      setListDesc(newList);
-    }, 500);
   };
+
   const handleRemoveDesc = (index) => {
     const updatedList = [...textDesc];
-    updatedList[index].fadeOut = true;
+    updatedList.splice(index, 1);
     setTextDesc(updatedList);
-
-    setTimeout(() => {
-      const newList = [...textDesc];
-      newList.splice(index, 1);
-      setTextDesc(newList);
-    }, 500); // Adjust timing to match the CSS transition duration
   };
-  
+
   const handleRemoveCate = (index) => {
-   
     const updatedList = [...categories];
     updatedList.splice(index, 1);
     setCategories(updatedList);
-
-    setTimeout(() => {
-      setCateValue(prevState => {
-       
-        const newList = [...prevState];
-        
-       
-        newList.splice(index, 1);
-        
-       
-        return newList;
-      });
-    }, 500);
   };
+
   const handleRemoveUrl = (index) => {
-   
     const updatedList = [...urls];
     updatedList.splice(index, 1);
     setUrls(updatedList);
-
-    setTimeout(() => {
-      setUrlValue(prevState => {
-       
-        const newList = [...prevState];
-        
-       
-        newList.splice(index, 1);
-        
-       
-        return newList;
-      });
-    }, 500);
   };
-
-  // List Dsc End ----------
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -190,26 +149,6 @@ const Upload = () => {
     });
   };
 
-  const handleArrayChange = (e, index, arrayName) => {
-    const { value } = e.target;
-    setInputs((prev) => {
-      const newArray = [...prev[arrayName]];
-      newArray[index] = value;
-      return { ...prev, [arrayName]: newArray };
-    });
-  };
- 
-  const handleArrayInputChange = (value, setValue, setArray, separator = ",") => {
-    if (value.endsWith(separator)) {
-      setArray((prev) => [...prev, value.slice(0, -1).trim()]);
-      setValue("");
-    } else {
-      setValue(value);
-    }
-  };
-
-  
-
   const handleUpload = async (e) => {
     e.preventDefault();
     const payload = {
@@ -222,16 +161,45 @@ const Upload = () => {
       price: inputs.price,
       salePrice: inputs.salePrice,
       productType: inputs.productType,
-      shortDes: { text:inputs.shortDes.text, listItem : features},
-      description: { textDesc: textDesc, listDesc: listDesc },
+      shortDes: {
+        text: inputs.shortDes.text,
+        listItem: features,
+      },
+      description: {
+        textDesc: textDesc,
+        listDesc: listDesc,
+      },
     };
 
-    console.log(payload);
     try {
       const res = await newRequest.post("/product/upload", payload);
-      showSuccessAlert("product added successfully.");
+      showSuccessAlert("Product added successfully.");
       console.log(res);
-      
+
+      // Reset form
+      setInputs({
+        title: "",
+        thumbnail: "",
+        hoverThumbnail: "",
+        gallery: [],
+        price: 0,
+        salePrice: 0,
+        productType: "",
+        shortDes: { text: "", listItem: "" },
+        description: {
+          textDesc: [{ title: "", text: "" }],
+          listDesc: [{ icon: "", Icontitle: "" }],
+        },
+      });
+      setUrls([]);
+      setCategories([]);
+      setCateValue("");
+      setUrlValue("");
+      setfeatures([]);
+      setfeaturesValue("");
+      setTextDesc([]);
+      setListDesc([]);
+      setSelectedCategory("");
     } catch (err) {
       console.log(err);
     }
@@ -239,55 +207,47 @@ const Upload = () => {
 
   return (
     <div className="updiv">
-      <h2>Upload a new Product </h2>
+      <h2>Upload a new Product</h2>
 
       <div className="input">
         <div className="col">
-          {/* ttile-------------- */}
-
           <input
-            className="title"
             type="text"
             placeholder="Title"
             name="title"
             onChange={handleChange}
           />
-
-          {/* Thumbnail ------------------ */}
           <input
-            className="thumbnail"
             type="text"
             placeholder="Thumbnail URL"
             name="thumbnail"
             onChange={handleChange}
           />
-
-          {/* -------- Hover-thumbnail */}
           <input
-            className="hover-thumbnail"
             type="text"
             placeholder="Hover Thumbnail URL"
             name="hoverThumbnail"
             onChange={handleChange}
           />
-          {/* ----------gellary */}
           <div className="items">
-            <Items data={urls} remove={handleRemoveUrl}/>
+            <Items data={urls} remove={handleRemoveUrl} />
           </div>
           <input
-            className="gallery"
             type="text"
             placeholder="Gallery Image URL (comma separated)"
-            name="gallery"
             value={urlValue}
-            onChange={(e) => handleUrlArrayChange(e, 0, "gallery")}
+            onChange={handleUrlArrayChange}
           />
 
-          {/* ----------pcate */}
-
-          <label htmlFor="pCate"> Select Primary categore</label>
-          <select id="mySelect" name="pCate" value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
-          <option value="website">Website</option>
+          <label htmlFor="pCate">Select Primary Category</label>
+          <select
+            id="pCate"
+            name="pCate"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <option value="">Select...</option>
+            <option value="website">Website</option>
             <option value="mobile-app">Mobile App</option>
             <option value="graphic-design">Graphic Design</option>
             <option value="motion">Motion Design</option>
@@ -295,63 +255,55 @@ const Upload = () => {
         </div>
 
         <div className="col">
-          {/* -------------Cate */}
           <div className="items">
             <Items data={categories} remove={handleRemoveCate} />
           </div>
           <input
-            className="cate"
             type="text"
             placeholder="Categories (comma separated)"
-            name="cate"
             value={cateValue}
-            onChange={(e) => handleCateArrayChange(e, 0, "cate")}
+            onChange={handleCateArrayChange}
           />
-          {/* price------------------ */}
           <input
-            className="price"
             type="number"
             placeholder="Price"
             name="price"
             onChange={handleChange}
           />
-          {/* --------------sale price */}
           <input
-            className="sale-price"
             type="number"
             placeholder="Sale Price"
             name="salePrice"
             onChange={handleChange}
           />
-          {/* product type-------------- */}
-
           <input
-            className="product-type"
             type="text"
             placeholder="Product Type"
             name="productType"
             onChange={handleChange}
           />
-          {/* --------short-des text */}
           <textarea
-            className="shortDes-text"
             placeholder="Short Description Text"
             name="shortDes.text"
             rows={3}
             onChange={handleChange}
           />
-          {/* --------short-des list item */}
         </div>
-        <div className="col">
 
-        <div className="items">
-            <Items data={features} remove={(index) => handleRemoveItem(index, setfeatures)} />
+        <div className="col">
+          <div className="items">
+            <Items data={features} remove={(index) => {
+              const updated = [...features];
+              updated.splice(index, 1);
+              setfeatures(updated);
+            }} />
           </div>
-        <textarea
-            placeholder="Short Description List Item (separated by coma)"
-            name="shortDes.listItem"
+          <textarea
+            placeholder="Short Description List Item (comma separated)"
             value={featuresValue}
-            onChange={(e) => handleArrayInputChange(e.target.value, setfeaturesValue, setfeatures)}
+            onChange={(e) =>
+              handleArrayInputChange(e.target.value, setfeaturesValue, setfeatures)
+            }
           />
 
           <input
@@ -360,47 +312,40 @@ const Upload = () => {
             placeholder="Add Title"
             onChange={(e) => handleInputDesc(e, "title")}
           />
-
-          <div>
-            <input
-              type="text"
-              value={textDsc.desc}
-              placeholder="Add Description"
-              onChange={(e) => handleInputDesc(e, "desc")}
-            />
-
-            <button className="AddItems" onClick={handleAddtextDesc}>
-              Add Desc
-            </button>
-            <div className="items">
-              <Items data={textDesc} remove={handleRemoveDesc} />
-            </div>
-            {/* -------------List Desc starts ---- */}
-
-            <input
-              type="text"
-              value={listDsc.icon}
-              placeholder=" Add Icon"
-              onChange={(e) => handleInputChange(e, "icon")}
-            />
+          <input
+            type="text"
+            value={textDsc.desc}
+            placeholder="Add Description"
+            onChange={(e) => handleInputDesc(e, "desc")}
+          />
+          <button className="AddItems" onClick={handleAddtextDesc}>
+            Add Desc
+          </button>
+          <div className="items">
+            <Items data={textDesc} remove={handleRemoveDesc} />
           </div>
-          <div>
-            <input
-              type="text"
-              value={listDsc.Icontitle}
-              placeholder="Add title"
-              onChange={(e) => handleInputChange(e, "Icontitle")}
-            />
 
-            <button className="AddItems" onClick={handleAddItem}>
-              Add Item
-            </button>
-            <div className="items">
-              <Items data={listDesc} remove={handleRemoveItem} />
-            </div>
+          <input
+            type="text"
+            value={listDsc.icon}
+            placeholder="Add Icon"
+            onChange={(e) => handleInputChange(e, "icon")}
+          />
+          <input
+            type="text"
+            value={listDsc.Icontitle}
+            placeholder="Add Title"
+            onChange={(e) => handleInputChange(e, "Icontitle")}
+          />
+          <button className="AddItems" onClick={handleAddItem}>
+            Add Item
+          </button>
+          <div className="items">
+            <Items data={listDesc} remove={handleRemoveItem} />
           </div>
         </div>
       </div>
+
       <button className="upbtn" onClick={handleUpload}>
         Upload
       </button>

@@ -37,8 +37,7 @@ const UploadWorks = () => {
     clientRev: "",
     clientPP: "",
     clientName: "",
-    clientName: "",
-    clientName: "",
+    
 
     viewlink: "",
     time: "",

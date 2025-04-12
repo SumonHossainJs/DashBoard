@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import newRequest from "../../../Utils/newRequest";
 import Swal from "sweetalert2";
-import "./Featureditems.scss";
+import "./FeaturedItems.scss";
 import { showSuccessAlert } from "../../../Utils/Alert";
 import Items from "../../upload/elements/Items";
 
