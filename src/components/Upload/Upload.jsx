@@ -7,7 +7,7 @@ const Upload = ({ type = "image", setProgress, setData, children, multiple = fal
   // Handle authentication for secure uploads
   const authenticator = async () => {
     try {
-      const res = await fetch("http://localhost:3030/workItem/uploadAuth");
+      const res = await fetch("https://a4codebackend.onrender.com/workItem/uploadAuth");
       const data = await res.json();
       return data; // should contain signature, expire, token
     } catch (err) {
