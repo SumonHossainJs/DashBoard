@@ -1,45 +1,63 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 import "./upload.scss";
-import Items from "./elements/Items";
 import { showSuccessAlert } from "../../Utils/Alert";
 import newRequest from "../../Utils/newRequest";
+import Upload from "../../components/Upload/Upload";
+import Items from "./elements/Items";
 
-const Upload = () => {
-  const [listDsc, setlistDsc] = useState({ icon: "", Icontitle: "" });
-  const [textDsc, setTextDsc] = useState({ title: "", desc: "" });
-
-  const [textDesc, setTextDesc] = useState([]);
-  const [listDesc, setListDesc] = useState([]);
-
+const UploadProduct = () => {
+  const [content, setContent] = useState("");
   const [categories, setCategories] = useState([]);
   const [cateValue, setCateValue] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [img, setImg] = useState("");
+  const [video, setVideo] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-  const [features, setfeatures] = useState([]);
-  const [featuresValue, setfeaturesValue] = useState("");
-
+  // Gallery states
   const [urls, setUrls] = useState([]);
   const [urlValue, setUrlValue] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [inputs, setInputs] = useState({
     title: "",
     thumbnail: "",
     hoverThumbnail: "",
-    gallery: [],
-    price: 0,
-    salePrice: 0,
+    price: "",
+    salePrice: "",
     productType: "",
-    shortDes: {
-      text: "",
-      listItem: "",
-    },
-    description: {
-      textDesc: [{ title: "", text: "" }],
-      listDesc: [{ icon: "", Icontitle: "" }],
-    },
+    shortDes: "",
   });
 
+  // Add uploaded image directly into editor
+  useEffect(() => {
+    if (img) {
+      const src = typeof img === "object" && img.url ? img.url : img;
+      setContent((prev) => prev + `<p><img src="${src}" alt="" /></p>`);
+    }
+  }, [img]);
+
+  // Add uploaded video directly into editor
+  useEffect(() => {
+    if (video) {
+      const src = typeof video === "object" && video.url ? video.url : video;
+      setContent(
+        (prev) =>
+          prev +
+          `<p><iframe class="ql-video" src="${src}" frameborder="0" allowfullscreen></iframe></p>`
+      );
+    }
+  }, [video]);
+
+  // Handle text/number changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle categories list
   const handleCateArrayChange = (e) => {
     const value = e.target.value;
     setCateValue(value);
@@ -52,305 +70,262 @@ const Upload = () => {
     }
   };
 
-  const handleUrlArrayChange = (e) => {
-    const value = e.target.value;
-    setUrlValue(value);
-    if (value.endsWith(",")) {
-      const newUrl = value.slice(0, -1).trim();
-      if (newUrl) {
-        setUrls((prev) => [...prev, newUrl]);
-        setUrlValue("");
-      }
-    }
-  };
-
-  const handleArrayInputChange = (value, setValue, setArray, separator = ",") => {
-    if (value.endsWith(separator)) {
-      const item = value.slice(0, -1).trim();
-      if (item) {
-        setArray((prev) => [...prev, item]);
-        setValue("");
-      }
-    } else {
-      setValue(value);
-    }
-  };
-
-  const handleInputChange = (e, field) => {
-    setlistDsc({
-      ...listDsc,
-      [field]: e.target.value,
-    });
-  };
-
-  const handleInputDesc = (e, field) => {
-    setTextDsc({
-      ...textDsc,
-      [field]: e.target.value,
-    });
-  };
-
-  const handleAddItem = () => {
-    if (listDsc.icon && listDsc.Icontitle) {
-      setListDesc([...listDesc, listDsc]);
-      setlistDsc({ icon: "", Icontitle: "" });
-    } else {
-      alert("Both icon and title are required.");
-    }
-  };
-
-  const handleAddtextDesc = () => {
-    if (textDsc.title && textDsc.desc) {
-      setTextDesc([...textDesc, textDsc]);
-      setTextDsc({ title: "", desc: "" });
-    } else {
-      alert("Both title and description are required.");
-    }
-  };
-
-  const handleRemoveItem = (index) => {
-    const updatedList = [...listDesc];
-    updatedList.splice(index, 1);
-    setListDesc(updatedList);
-  };
-
-  const handleRemoveDesc = (index) => {
-    const updatedList = [...textDesc];
-    updatedList.splice(index, 1);
-    setTextDesc(updatedList);
-  };
-
   const handleRemoveCate = (index) => {
     const updatedList = [...categories];
     updatedList.splice(index, 1);
     setCategories(updatedList);
   };
 
-  const handleRemoveUrl = (index) => {
-    const updatedList = [...urls];
-    updatedList.splice(index, 1);
-    setUrls(updatedList);
+  const handleThumbnailUpload = (data) => {
+    const src = typeof data === "object" && data.url ? data.url : data;
+    setInputs((prev) => ({ ...prev, thumbnail: src }));
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputs((prev) => {
-      if (name.includes(".")) {
-        const [parent, child] = name.split(".");
-        return {
-          ...prev,
-          [parent]: {
-            ...prev[parent],
-            [child]: value,
-          },
-        };
-      }
-      return { ...prev, [name]: value };
-    });
+  const handleHoverThumbnailUpload = (data) => {
+    const src = typeof data === "object" && data.url ? data.url : data;
+    setInputs((prev) => ({ ...prev, hoverThumbnail: src }));
+  };
+
+  // Gallery Upload Handlers
+  const handleUrlArrayChange = (e) => {
+    const value = e.target.value;
+    setUrlValue(value);
+    if (value.endsWith(",")) {
+      const newUrl = value.slice(0, -1).trim();
+      if (newUrl) setUrls((prev) => [...prev, newUrl]);
+      setUrlValue("");
+    }
+  };
+
+  const handleGalleryUpload = (data) => {
+    if (!data) return;
+    if (Array.isArray(data)) {
+      const newUrls = data.map((item) =>
+        typeof item === "object" && item.url ? item.url : item
+      );
+      setUrls((prev) => [...prev, ...newUrls]);
+    } else {
+      const url = typeof data === "object" && data.url ? data.url : data;
+      setUrls((prev) => [...prev, url]);
+    }
   };
 
   const handleUpload = async (e) => {
     e.preventDefault();
+
+    let finalUrls = [...urls];
+    if (urlValue.trim()) finalUrls.push(urlValue.trim());
+
     const payload = {
-      title: inputs.title,
-      thumbnail: inputs.thumbnail,
-      hoverThumbnail: inputs.hoverThumbnail,
-      gallery: urls,
+      ...inputs,
       pCate: selectedCategory,
       cate: categories,
-      price: inputs.price,
-      salePrice: inputs.salePrice,
-      productType: inputs.productType,
-      shortDes: {
-        text: inputs.shortDes.text,
-        listItem: features,
-      },
-      description: {
-        textDesc: textDesc,
-        listDesc: listDesc,
-      },
+      gallery: finalUrls,
+      description: content,
     };
 
     try {
-      const res = await newRequest.post("/product/upload", payload);
+      await newRequest.post("/product/upload", payload);
       showSuccessAlert("Product added successfully.");
-      console.log(res);
+      console.log("Uploaded:", payload);
 
       // Reset form
       setInputs({
         title: "",
         thumbnail: "",
         hoverThumbnail: "",
-        gallery: [],
-        price: 0,
-        salePrice: 0,
+        price: "",
+        salePrice: "",
         productType: "",
-        shortDes: { text: "", listItem: "" },
-        description: {
-          textDesc: [{ title: "", text: "" }],
-          listDesc: [{ icon: "", Icontitle: "" }],
-        },
+        shortDes: "",
       });
-      setUrls([]);
       setCategories([]);
-      setCateValue("");
+      setUrls([]);
       setUrlValue("");
-      setfeatures([]);
-      setfeaturesValue("");
-      setTextDesc([]);
-      setListDesc([]);
+      setCateValue("");
       setSelectedCategory("");
+      setContent("");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   return (
     <div className="updiv">
-      <h2>Upload a new Product</h2>
+      <h2 className="title">Upload a New Product</h2>
 
-      <div className="input">
-        <div className="col">
-          <input
-            type="text"
-            placeholder="Title"
-            name="title"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="Thumbnail URL"
-            name="thumbnail"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="Hover Thumbnail URL"
-            name="hoverThumbnail"
-            onChange={handleChange}
-          />
-          <div className="items">
-            <Items data={urls} remove={handleRemoveUrl} />
+      <form className="input" onSubmit={handleUpload}>
+        <div className="inputs-columns">
+          {/* Left Column */}
+          <div className="col">
+            <label>Title</label>
+            <input
+              type="text"
+              name="title"
+              value={inputs.title}
+              onChange={handleChange}
+              required
+            />
+
+            <label>Thumbnail</label>
+            <Upload type="image" setProgress={setProgress} setData={handleThumbnailUpload}>
+              <button type="button" className="upload-btn">Upload Thumbnail</button>
+            </Upload>
+            {inputs.thumbnail && (
+              <div className="image-preview">
+                <img src={inputs.thumbnail} alt="Thumbnail Preview" />
+              </div>
+            )}
+
+            <label>Hover Thumbnail</label>
+            <Upload type="image" setProgress={setProgress} setData={handleHoverThumbnailUpload}>
+              <button type="button" className="upload-btn">Upload Hover Thumbnail</button>
+            </Upload>
+            {inputs.hoverThumbnail && (
+              <div className="image-preview">
+                <img src={inputs.hoverThumbnail} alt="Hover Thumbnail Preview" />
+              </div>
+            )}
+
+            {/* Gallery Upload Section */}
+            <label>Gallery Images (comma separated)</label>
+            <input
+              type="text"
+              value={urlValue}
+              onChange={handleUrlArrayChange}
+              placeholder="Add image URL, then comma"
+            />
+            {urls.length > 0 && (
+              <ul className="preview-list">
+                {urls.map((u, i) => (
+                  <li key={i}>{u}</li>
+                ))}
+              </ul>
+            )}
+
+            <label>Upload Gallery Images</label>
+            <Upload
+              type="image"
+              multiple={true}
+              setProgress={setProgress}
+              setData={handleGalleryUpload}
+            >
+              <button
+                type="button"
+                className="upload-btn"
+                disabled={progress > 0 && progress < 100}
+              >
+                Upload Gallery Images
+              </button>
+            </Upload>
+            {urls.length > 0 && (
+              <div
+                className="gallery-preview"
+                style={{
+                  marginTop: 10,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                }}
+              >
+                {urls.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Gallery Image ${index + 1}`}
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                      borderRadius: "4px",
+                      border: "1px solid #ccc",
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          <input
-            type="text"
-            placeholder="Gallery Image URL (comma separated)"
-            value={urlValue}
-            onChange={handleUrlArrayChange}
-          />
 
-          <label htmlFor="pCate">Select Primary Category</label>
-          <select
-            id="pCate"
-            name="pCate"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">Select...</option>
-            <option value="website">Website</option>
-            <option value="mobile-app">Mobile App</option>
-            <option value="graphic-design">Graphic Design</option>
-            <option value="motion">Motion Design</option>
-          </select>
-        </div>
+          {/* Middle Column */}
+          <div className="col">
+            <label>Primary Category</label>
+            <select
+              name="pCate"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">Select...</option>
+              <option value="website">Website</option>
+              <option value="mobile-app">Mobile App</option>
+              <option value="graphic-design">Graphic Design</option>
+              <option value="motion">Motion Design</option>
+            </select>
 
-        <div className="col">
-          <div className="items">
+            <label>Sub Categories (comma separated)</label>
             <Items data={categories} remove={handleRemoveCate} />
-          </div>
-          <input
-            type="text"
-            placeholder="Categories (comma separated)"
-            value={cateValue}
-            onChange={handleCateArrayChange}
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            name="price"
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            placeholder="Sale Price"
-            name="salePrice"
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            placeholder="Product Type"
-            name="productType"
-            onChange={handleChange}
-          />
-          <textarea
-            placeholder="Short Description Text"
-            name="shortDes.text"
-            rows={3}
-            onChange={handleChange}
-          />
-        </div>
+            <input type="text" value={cateValue} onChange={handleCateArrayChange} />
 
-        <div className="col">
-          <div className="items">
-            <Items data={features} remove={(index) => {
-              const updated = [...features];
-              updated.splice(index, 1);
-              setfeatures(updated);
-            }} />
-          </div>
-          <textarea
-            placeholder="Short Description List Item (comma separated)"
-            value={featuresValue}
-            onChange={(e) =>
-              handleArrayInputChange(e.target.value, setfeaturesValue, setfeatures)
-            }
-          />
+            <label>Price</label>
+            <input type="number" name="price" value={inputs.price} onChange={handleChange} />
 
-          <input
-            type="text"
-            value={textDsc.title}
-            placeholder="Add Title"
-            onChange={(e) => handleInputDesc(e, "title")}
-          />
-          <input
-            type="text"
-            value={textDsc.desc}
-            placeholder="Add Description"
-            onChange={(e) => handleInputDesc(e, "desc")}
-          />
-          <button className="AddItems" onClick={handleAddtextDesc}>
-            Add Desc
-          </button>
-          <div className="items">
-            <Items data={textDesc} remove={handleRemoveDesc} />
+            <label>Sale Price</label>
+            <input type="number" name="salePrice" value={inputs.salePrice} onChange={handleChange} />
           </div>
 
-          <input
-            type="text"
-            value={listDsc.icon}
-            placeholder="Add Icon"
-            onChange={(e) => handleInputChange(e, "icon")}
-          />
-          <input
-            type="text"
-            value={listDsc.Icontitle}
-            placeholder="Add Title"
-            onChange={(e) => handleInputChange(e, "Icontitle")}
-          />
-          <button className="AddItems" onClick={handleAddItem}>
-            Add Item
-          </button>
-          <div className="items">
-            <Items data={listDesc} remove={handleRemoveItem} />
+          {/* Right Column */}
+          <div className="col">
+            <label>Product Type</label>
+            <input
+              type="text"
+              name="productType"
+              value={inputs.productType}
+              onChange={handleChange}
+            />
+
+            <label>Short Description</label>
+            <textarea
+              name="shortDes"
+              rows={3}
+              value={inputs.shortDes}
+              onChange={handleChange}
+            />
           </div>
         </div>
-      </div>
 
-      <button className="upbtn" onClick={handleUpload}>
-        Upload
-      </button>
+        {/* Editor Section */}
+        <div className="editor-section">
+          <label>Description (Rich Text)</label>
+          <div className="editor-wrapper">
+            <ReactQuill
+              theme="snow"
+              value={content}
+              onChange={setContent}
+              readOnly={progress > 0 && progress < 100}
+              className="react-quill-editor"
+            />
+            <div className="editor-upload-buttons">
+              <Upload type="image" setProgress={setProgress} setData={setImg}>
+                <button type="button" title="Upload Image" className="icon-btn">🌆</button>
+              </Upload>
+              <Upload type="video" setProgress={setProgress} setData={setVideo}>
+                <button type="button" title="Upload Video" className="icon-btn">▶️</button>
+              </Upload>
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="upbtn"
+          disabled={progress > 0 && progress < 100}
+        >
+          {progress > 0 && progress < 100 ? "Uploading..." : "Upload"}
+        </button>
+
+        <p className="progress-text">Progress: {progress}%</p>
+      </form>
     </div>
   );
 };
 
-export default Upload;
+export default UploadProduct;

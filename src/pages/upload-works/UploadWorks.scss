@@ -1,153 +1,314 @@
-.updiv{
+.updiv {
+  max-width: 100%;
+  width: 100%;
+  padding: 20px 25px;
+  box-sizing: border-box;
+  margin: 40px auto 60px;
+  background: rgba(255 255 255 / 0.1);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 0 100px 15px rgba(255 255 255 / 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255 255 255 / 0.18);
+  color: #e0e0e0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  /* HIDE actual file inputs inside Upload components */
+  /* Assuming Upload component root class is 'Upload' */
+  .Upload input[type="file"] {
+    display: none !important;
+  }
+
+  form.input {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px;
-    .input{
+    gap: 35px;
+    box-sizing: border-box;
+
+    .inputs-columns {
+      display: flex;
+      flex-wrap: wrap;       /* allow wrapping */
+      gap: 30px;
+      justify-content: center;
+      box-sizing: border-box;
+
+      .col {
+        flex: 1 1 300px;      /* grow and shrink, base min-width 300px */
+        max-width: 100%;     /* never overflow container */
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        .col{
-            max-width: 500px;
-            min-width: 400px;
-            display: flex;
-            flex-direction: column;
-            
-            
-                input,
-                textarea,select {
-                  width: 100%;
-                  padding: 10px;
-                  margin-bottom: 15px;
-                  border: 1px solid #ffffff30;
-                  background-color: rgba(255, 255, 255, 0.023);
-                  color: white;
-                  border-radius: 5px;
-                  box-sizing: border-box;
-                }
-                textarea,select,input::placeholder {
-                    color: #ffffff; 
-                }
-                textarea::placeholder {
-                  color: #ffffff; 
-                  font-family: inherit;
-              }
-                input {
-                    height: 50px;
-                }
-                label{
-                    font-size: 12px;
-                    padding-bottom: 10px;
-                    padding-top: 15px;
-                }
-                #mySelect {
-                    width: 200px; 
-                    padding: 10px;
-                    font-size: 16px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    background-color: rgba(255, 255, 255, 0.123);
-                    color: white;
-                    cursor: pointer;
-                    outline: none; // Remove default outline
-                  
-                    &:hover,
-                    &:focus {
-                      border-color: #aaa; // Change border color on hover and focus
-                    }
-                    
-                    & option {
-                      background-color: #ffffff23; // Background color of options
-                      color: #333; // Text color of options
-                    }
-                    &:focus + div {
-                        background-color: #f90e0e; // Change background color of dropdown menu
-                      }
-                  }
-                  .AddItems{
-                    background-color: #ffffff2b;
-                    border: none;
-                    padding: 10px 15px;
-                    color:white;
-                    border-radius: 5px;
-                    margin:  10px 0;
-                    transition: all 0.5s ease;
-                    &:hover{
-                        box-shadow: 0 0 10px black;
-                    }
-                  }
-                  .items{
-                    width: 400px;
-                    ul{
-                        list-style: none;
-                        li{
-                          cursor: pointer; 
-                          border: .5px solid rgba(128, 128, 128, 0.309);
-                          width: fit-content;
-                          padding: 10px;
-                          margin: 5px;
-                          border-radius: 10px; 
-                          transition: all .5s ease;
-                            display: inline-block;
-                            max-width: 200px;
-                            position: relative;
-                            box-shadow: inset 0px 0px 10px 5px rgba(247, 246, 246, 0.053); // Inner shadow
-                            
-                            span{
-                                position: absolute;
-                                
-                                top: 1px;
-                                right: 0px;
-                                opacity: 0;
-                                
-                                border-radius:2px  10px 2px  5px;
-                                transition: all .5s ease;
-                                font-size: .8rem;
-                                background-color: red;
-                                width: 20px;
-                                height: 20px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                               
-                              }
-                          &:hover{
-                            border: 1px solid rgba(249, 112, 112, 0.534);
-                            box-shadow: 0 0 10px  rgba(251, 132, 132, 0.381);
-                            
-                            span{
-                                opacity: 1;
-                                color: rgb(255, 255, 255);
-                            }
-                          }
-                          
-                        }
-                        .fadeOut {
-                            opacity: 1;
-                            transition: all 0.5s ease-out; /* Adjust timing and easing as needed */
-                          }
-                          .fadeOut.hidden {
-                            opacity: 0;
-                          }
-                    }
-                  }
-              
-            
+        flex-direction: column;
+        box-sizing: border-box;
+
+        label {
+          font-weight: 600;
+          margin-bottom: 6px;
+          color: #d1d1d1;
+          letter-spacing: 0.04em;
         }
-    }
-    .upbtn{
-      background-color: rgba(148, 146, 146, 0.056);
-      border: 1px solid gray;
-      padding: 15px 25px;
-      color: white;
-      font-size: 1rem;
-      border-radius: 10px;
-      transition: all .5s ease;
-      &:hover{
-        background-color: rgba(148, 146, 146, 0.327);
-        border: 1px solid rgba(128, 128, 128, 0.342);
+
+        input,
+        select {
+          background: rgba(255 255 255 / 0.15);
+          border: 1.5px solid rgba(255 255 255 / 0.3);
+          border-radius: 12px;
+          padding: 12px 16px;
+          color: #f0f0f0;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+          outline: none;
+          box-sizing: border-box;
+
+          &::placeholder {
+            color: #bbb;
+          }
+
+          &:focus {
+            border-color: #7dd3fc;
+            background: rgba(255 255 255 / 0.3);
+            box-shadow: 0 0 8px #7dd3fc;
+          }
+        }
+
+        .upload-btn {
+          margin: 10px 0 12px;
+          padding: 12px 20px;
+          font-weight: 700;
+          font-size: 1rem;
+          color: #f0f0f0;
+          background: linear-gradient(135deg, #00b4db, #0083b0);
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-sizing: border-box;
+
+          &:hover {
+            box-shadow: 0 0 20px #00b4db, 0 0 30px #0083b0;
+            transform: translateY(-2px);
+          }
+        }
+
+        .image-preview {
+          margin-bottom: 20px;
+          img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 180, 219, 0.6);
+            border: 1.5px solid rgba(255 255 255 / 0.3);
+            display: block;
+          }
+        }
       }
     }
+
+    .editor-section {
+      label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #d1d1d1;
+      }
+
+      .editor-wrapper {
+        position: relative;
+        width: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 35px rgba(0, 180, 219, 0.5);
+        border: 1.5px solid rgba(255 255 255 / 0.3);
+        background: rgba(255 255 255 / 0.1);
+        box-sizing: border-box;
+
+        .react-quill-editor {
+          min-height: 280px;
+          background: transparent !important;
+          color: #f0f0f0;
+          width: 100% !important;
+
+          .ql-toolbar {
+            background: rgba(255 255 255 / 0.12);
+            border: none;
+            border-bottom: 1.5px solid rgba(255 255 255 / 0.3);
+          }
+
+          .ql-container {
+            font-size: 1rem;
+            color: #f0f0f0;
+            background: transparent !important;
+            min-height: 220px;
+          }
+        }
+
+        .editor-upload-buttons {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          z-index: 10;
+
+          .icon-btn {
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.4rem;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            box-shadow: 0 0 12px #00b4db;
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.15);
+              box-shadow: 0 0 20px #00b4db;
+            }
+          }
+        }
+      }
+    }
+
+    .upbtn {
+      align-self: center;
+      padding: 15px 50px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      border: none;
+      background: linear-gradient(135deg, #00b4db, #0083b0);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 30px #00b4db;
+      transition: all 0.4s ease;
+
+      &:hover:enabled {
+        box-shadow: 0 0 50px #00e6ff;
+        transform: translateY(-3px);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        box-shadow: none;
+      }
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 15px;
+      color: #aad8ff;
+      font-weight: 600;
+    }
+  }
+}
+
+/* Responsive for sidebar layouts and smaller widths */
+@media (max-width: 1024px) {
+  .updiv {
+    padding: 15px 20px;
+
+    form.input {
+      .inputs-columns {
+        flex-direction: column;
+        gap: 25px;
+
+        .col {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+      .editor-section {
+        .editor-wrapper {
+          min-height: 280px;
+          .react-quill-editor {
+            min-height: 260px;
+            width: 100% !important;
+          }
+          .editor-upload-buttons {
+            flex-direction: row;
+            bottom: 10px;
+            top: auto;
+            right: 10px;
+            gap: 15px;
+            width: auto;
+          }
+        }
+      }
+
+      .upbtn {
+        width: 100%;
+        padding: 15px 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .updiv {
+    padding: 15px 15px;
+
+    form.input {
+      .inputs-columns {
+        .col {
+          flex-basis: 100%;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+}
+
+/* Mobile (small devices) */
+@media (max-width: 480px) {
+  .updiv {
+    padding: 12px 12px;
+
+    form.input {
+      .inputs-columns {
+        .col {
+          input,
+          select,
+          .upload-btn {
+            font-size: 0.9rem;
+            padding: 10px 12px;
+          }
+        }
+      }
+
+      .editor-section {
+        label {
+          font-size: 1rem;
+        }
+        .editor-wrapper {
+          min-height: 220px;
+
+          .react-quill-editor {
+            min-height: 200px;
+            font-size: 0.9rem;
+          }
+
+          .editor-upload-buttons {
+            flex-direction: row;
+            bottom: 8px;
+            top: auto;
+            right: 10px;
+            gap: 10px;
+
+            .icon-btn {
+              width: 36px;
+              height: 36px;
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+
+      .upbtn {
+        padding: 12px 0;
+        font-size: 1rem;
+      }
+    }
+  }
 }
